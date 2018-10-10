@@ -4,7 +4,7 @@
 	<groupId>com.proginators</groupId>
 	<artifactId>boot-jar-war-example</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>${packaging.name}</packaging>
 	<description>Spring boot example with war and jar</description>
 
 	<parent>
@@ -17,12 +17,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-starter-tomcat</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>io.springfox</groupId>
@@ -36,19 +30,39 @@
 			<version>2.6.1</version>
 			<scope>compile</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-tomcat</artifactId>
-			<scope>provided</scope>
-		</dependency>
 	</dependencies>
 
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
 
+	<profiles>
+		<profile>
+			<id>local</id>
+			<properties>
+				<packaging.name>jar</packaging.name>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+		<profile>
+			<id>remote</id>
+			<properties>
+				<packaging.name>war</packaging.name>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+					<scope>provided</scope>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
+
 	<build>
-		<finalName>warExample</finalName>
+		<finalName>example</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
